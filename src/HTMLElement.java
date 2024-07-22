@@ -15,12 +15,16 @@ public class HTMLElement {
         this.children.add(child);
     }
 
-    public String value() {
+    public String getValue() {
         return value;
     }
 
-    public List<HTMLElement> getChildren() {
+    public LinkedList<HTMLElement> getChildren() {
         return children;
+    }
+
+    public String toString() {
+        return value;
     }
 
 }

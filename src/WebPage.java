@@ -2,24 +2,24 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class WebPage {
     private final ArrayList<String> HTMLAL = new ArrayList<>();
     private final String webPageURL;
-    
-    private final HTMLElement HTMLHead = new HTMLElement(); 
+    private HTMLElement HTMLHead;
     public WebPage(String webPageURL) {
         this.webPageURL = webPageURL;
-        createHTMLArrayList();
+        createHTMLCharArrayList();
     }
 
-    public void createHTMLTree() {
+    public ArrayList<String> createElementArrayList() {
         ArrayList<String> nodes = new ArrayList<>();
         StringBuilder element = new StringBuilder();
         StringBuilder text = new StringBuilder();
         int endOfLastTag = 0;
-        for (int i = 0; i<HTMLAL.size(); i++) {
+        for (int i=0; i<HTMLAL.size(); i++) {
             if (HTMLAL.get(i).equals("<")) {
                 element.append("<");
                 while (!HTMLAL.get(i).equals(">")) {
@@ -37,10 +37,11 @@ public class WebPage {
                 element.setLength(0);
             }
         }
-        System.out.println(nodes);
+        return nodes;
     }
 
-    private void createHTMLArrayList() {
+
+    private void createHTMLCharArrayList() {
         try {
             URL url = new URL(webPageURL);
             Scanner input = new Scanner(url.openStream());
@@ -58,9 +59,5 @@ public class WebPage {
         catch (IOException ex) {
             System.out.println("I/O Errors: no such file");
         }
-    }
-
-    public ArrayList<String> getHTMLAL() {
-        return HTMLAL;
     }
 }
