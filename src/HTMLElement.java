@@ -1,8 +1,8 @@
 import java.util.LinkedList;
 import java.util.List;
 public class HTMLElement {
-    private LinkedList<HTMLElement> children = null;
-    private String value = null;
+    private LinkedList<HTMLElement> children = new LinkedList<>();
+    private String value = "";
 
     public HTMLElement() {}
 
