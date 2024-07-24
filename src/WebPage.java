@@ -2,13 +2,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class WebPage {
     private final ArrayList<String> HTMLAL = new ArrayList<>();
     private final String webPageURL;
-    private HTMLElement HTMLHead;
     public WebPage(String webPageURL) {
         this.webPageURL = webPageURL;
         createHTMLCharArrayList();
@@ -25,7 +23,7 @@ public class WebPage {
                 while (!HTMLAL.get(i).equals(">")) {
                     element.append(HTMLAL.get(++i));
                 }
-                if (element.toString().startsWith("</") && !HTMLAL.get(endOfLastTag + 1).equals(" ") &&  !HTMLAL.get(endOfLastTag + 1).equals("<")) {
+                if (element.toString().startsWith("</") && !HTMLAL.get(endOfLastTag + 1).equals(" ")) {
                     for (int j = endOfLastTag+1; j <= i - element.length(); j++) {
                         text.append(HTMLAL.get(j));
                     }

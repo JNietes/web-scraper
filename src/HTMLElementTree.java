@@ -31,22 +31,17 @@ public class HTMLElementTree {
     }
 
     public void printTree() {
-        System.out.println(root.getChildren());
+        printTree(root, 0);
+    }
+    public void printTree(HTMLElement node, int indent) {
+        int numOfIndents = indent;
+        for (int i=0; i<numOfIndents; i++) {
+            System.out.print("    ");
+        }
+        System.out.println(node);
+        numOfIndents++;
+        for (HTMLElement e: node.getChildren()) {
+            printTree(e, numOfIndents);
+        }
     }
 }
-    /*
-    HTMLElement currentNode = new HTMLElement();
-        for (int i=0; i<nodes.size(); i++) {
-        if (nodes.get(i).startsWith("<html")) {
-            HTMLHead = new HTMLElement(nodes.get(i));
-            currentNode = HTMLHead;
-        }
-        while (currentNode.getChildren().isEmpty() && i < nodes.size()-1) {
-            HTMLElement tempNode = new HTMLElement(nodes.get(++i));
-            currentNode.addChild(tempNode);
-            currentNode = tempNode;
-        }
-    }
-
-
-     */
