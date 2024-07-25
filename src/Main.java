@@ -2,16 +2,20 @@
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("https://jnietes.github.io/mine-sweeper-webpage/\n");
-        WebPage wp1 = new WebPage("https://jnietes.github.io/mine-sweeper-webpage/");
-        HTMLElementTree tree = new HTMLElementTree(wp1.createElementArrayList());
-        tree.printTree();
+        System.out.println("\nhttps://jnietes.github.io/mine-sweeper-webpage/");
+        WebPage wp1 = new WebPage("https://jnietes.github.io/mine-sweeper-webpage/\n");
+        HTMLElementTree tree0 = new HTMLElementTree(wp1.createElementArrayList());
+        System.out.println("getTextLeavesFromNode(\"<div id=\\\"boardMenu\\\">\");");
+        tree0.getTextLeavesFromNode("<div id=\"boardMenu\">");
+        System.out.println("\n");
 
-        System.out.println("\n\n\n");
 
-        System.out.println("https://google.com\n");
-        WebPage wp2 = new WebPage("https://google.com");
+        WebPage wp2 = new WebPage("https://www.scrapethissite.com/pages/simple/");
         HTMLElementTree tree1 = new HTMLElementTree(wp2.createElementArrayList());
-        tree1.printTree();
+
+        System.out.println("https://www.scrapethissite.com/pages/simple/");
+        System.out.println("getTextLeavesFromNode(\"<h3 class=\\\"country-name\\\">\");\n");
+        System.out.println("Countries:");
+        tree1.getTextLeavesFromNode("<h3 class=\"country-name\">");
     }
 }

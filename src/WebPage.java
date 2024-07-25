@@ -16,23 +16,25 @@ public class WebPage {
         ArrayList<String> nodes = new ArrayList<>();
         StringBuilder element = new StringBuilder();
         StringBuilder text = new StringBuilder();
-        int endOfLastTag = 0;
         for (int i=0; i<HTMLAL.size(); i++) {
             if (HTMLAL.get(i).equals("<")) {
-                element.append("<");
+                element.append(HTMLAL.get(i));
                 while (!HTMLAL.get(i).equals(">")) {
                     element.append(HTMLAL.get(++i));
                 }
-                if (element.toString().startsWith("</") && !HTMLAL.get(endOfLastTag + 1).equals(" ")) {
-                    for (int j = endOfLastTag+1; j <= i - element.length(); j++) {
-                        text.append(HTMLAL.get(j));
-                    }
+                if (!text.isEmpty()) {
                     nodes.add(text.toString());
                     text.setLength(0);
                 }
-                endOfLastTag = i;
                 nodes.add(element.toString());
                 element.setLength(0);
+            }
+            else if (!HTMLAL.get(i).equals(" ")){
+                while (!HTMLAL.get(i+1).equals("<") && i < HTMLAL.size() - 1) {
+                    text.append(HTMLAL.get(i));
+                    i++;
+                }
+                text.append(HTMLAL.get(i));
             }
         }
         return nodes;
