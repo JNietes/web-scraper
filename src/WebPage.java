@@ -7,9 +7,11 @@ import java.util.Scanner;
 public class WebPage {
     private final ArrayList<String> HTMLAL = new ArrayList<>();
     private final String webPageURL;
+    private final HTMLElementTree elementTree;
     public WebPage(String webPageURL) {
         this.webPageURL = webPageURL;
         createHTMLCharArrayList();
+        elementTree = new HTMLElementTree(createElementArrayList());
     }
 
     public ArrayList<String> createElementArrayList() {
@@ -25,6 +27,20 @@ public class WebPage {
                 if (!text.isEmpty()) {
                     nodes.add(text.toString());
                     text.setLength(0);
+                }
+                if (element.toString().startsWith("<!--")) { // Omitting HTML comments
+                    while (!element.toString().endsWith("-->")) {
+                        element.append(HTMLAL.get(++i));
+                    }
+                    element.setLength(0);
+                    continue;
+                }
+                if (element.toString().startsWith("<script")) { // Omitting JavaScript
+                    while (!element.toString().endsWith("/script>")) {
+                        element.append(HTMLAL.get(++i));
+                    }
+                    element.setLength(0);
+                    continue;
                 }
                 nodes.add(element.toString());
                 element.setLength(0);
@@ -59,5 +75,9 @@ public class WebPage {
         catch (IOException ex) {
             System.out.println("I/O Errors: no such file");
         }
+    }
+
+    public HTMLElementTree getElementTree() {
+        return elementTree;
     }
 }

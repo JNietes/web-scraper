@@ -19,7 +19,7 @@ public class HTMLElementTree {
                     while (!a.startsWith(b)) {
                         a = stack.pop().getValue();
                     }
-                } else if (!s.startsWith("<!")) {
+                } else if (!s.startsWith("<!") && !s.startsWith("<!--")) {
                     HTMLElement temp = new HTMLElement(s);
                     stack.peek().addChild(temp);
                     stack.push(temp);
