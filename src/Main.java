@@ -7,13 +7,19 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        WebPage wp3 = new WebPage("https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
-        wp3.getElementTree().getTextLeavesFromNode("<div class=s-item__title>");
-
+        WebPage wp;
         File HTMLElements = new File ("HTMLElements.txt");
         if (!HTMLElements.exists()) {
-            createHTMLElementFile(wp3);
+            wp = new WebPage("https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
+            createHTMLElementFile(wp);
         }
+        else {
+            wp = new WebPage("HTMLElements.txt", "https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
+        }
+
+        wp.getElementTree().printTree();
+        wp.getElementTree().getTextLeavesFromNode("<div class=s-item__title>");
+
     }
 
     // Can aid in finding elements
