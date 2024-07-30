@@ -20,7 +20,7 @@ public class HTMLElementTree {
                         a = stack.pop().getValue();
                     }
                 }
-                else if (hasNoClosingTag(s)) {
+                else if (selfCLosingTag(s)) {
                     HTMLElement temp = new HTMLElement(s);
                     stack.peek().addChild(temp);
                 }
@@ -33,8 +33,8 @@ public class HTMLElementTree {
         }
     }
 
-    private boolean hasNoClosingTag(String s) {
-        String[] weirdElements = {"<meta ", "<link "};
+    private boolean selfCLosingTag(String s) {
+        String[] weirdElements = {"<meta ", "<link ", "<img "};
         boolean boo = false;
         for (String weirdElement : weirdElements) {
             if (s.startsWith(weirdElement)) {
