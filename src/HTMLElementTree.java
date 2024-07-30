@@ -14,13 +14,19 @@ public class HTMLElementTree {
                 stack.push(root);
             } else {
                 if (s.startsWith("</")) {
-                    String a = stack.pop().getValue();
-                    String b = "<" + s.substring(2, s.length() - 1);
+                    String a = stack.pop().getValue(); // </head>
+                    String b = "<" + s.substring(2, s.length() - 1); // < + head>
                     while (!a.startsWith(b)) {
                         a = stack.pop().getValue();
                     }
                 }
                 else if (selfCLosingTag(s)) {
+                    if (s.startsWith("<input ")) {
+                        if (arrayList.get(arrayList.indexOf(s)+1).equals("</input>")) {
+                            arrayList.set((arrayList.indexOf(s)+1), s + "</input>");
+                            continue;
+                        }
+                    }
                     HTMLElement temp = new HTMLElement(s);
                     stack.peek().addChild(temp);
                 }
@@ -34,7 +40,7 @@ public class HTMLElementTree {
     }
 
     private boolean selfCLosingTag(String s) {
-        String[] weirdElements = {"<meta ", "<link ", "<img "};
+        String[] weirdElements = {"<meta ", "<link ", "<img ", "<input "};
         boolean boo = false;
         for (String weirdElement : weirdElements) {
             if (s.startsWith(weirdElement)) {
