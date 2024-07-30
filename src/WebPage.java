@@ -6,16 +6,23 @@ import java.util.Scanner;
 
 public class WebPage {
     private final ArrayList<String> HTMLAL = new ArrayList<>();
+    private ArrayList<String> nodes = new ArrayList<>();
     private final String webPageURL;
     private final HTMLElementTree elementTree;
     public WebPage(String webPageURL) {
         this.webPageURL = webPageURL;
         createHTMLCharArrayList();
-        elementTree = new HTMLElementTree(createElementArrayList());
+        createElementArrayList();
+        elementTree = new HTMLElementTree(nodes);
     }
 
-    public ArrayList<String> createElementArrayList() {
-        ArrayList<String> nodes = new ArrayList<>();
+    public WebPage(String filePath, String webPageURL) { // For HTMLElement.txt
+        this.webPageURL = webPageURL;
+        nodes = Main.readFile(filePath, "\n");
+        elementTree = new HTMLElementTree(nodes);
+    }
+
+    public void createElementArrayList() {
         StringBuilder element = new StringBuilder();
         StringBuilder text = new StringBuilder();
         for (int i=0; i<HTMLAL.size(); i++) {
@@ -42,6 +49,14 @@ public class WebPage {
                     element.setLength(0);
                     continue;
                 }
+                if (element.toString().startsWith("<style")) { // Omitting CSS
+                    while (!element.toString().endsWith("/style>")) {
+                        element.append(HTMLAL.get(++i));
+                    }
+                    element.setLength(0);
+                    continue;
+                }
+
                 nodes.add(element.toString());
                 element.setLength(0);
             }
@@ -53,7 +68,6 @@ public class WebPage {
                 text.append(HTMLAL.get(i));
             }
         }
-        return nodes;
     }
 
 
@@ -79,5 +93,9 @@ public class WebPage {
 
     public HTMLElementTree getElementTree() {
         return elementTree;
+    }
+
+    public ArrayList<String> getNodes() {
+        return nodes;
     }
 }

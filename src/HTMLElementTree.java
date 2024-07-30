@@ -19,13 +19,30 @@ public class HTMLElementTree {
                     while (!a.startsWith(b)) {
                         a = stack.pop().getValue();
                     }
-                } else if (!s.startsWith("<!") && !s.startsWith("<!--")) {
+                }
+                else if (hasNoClosingTag(s)) {
+                    HTMLElement temp = new HTMLElement(s);
+                    stack.peek().addChild(temp);
+                }
+                else if (!s.startsWith("<!") && !s.startsWith("<!--")) {
                     HTMLElement temp = new HTMLElement(s);
                     stack.peek().addChild(temp);
                     stack.push(temp);
                 }
             }
         }
+    }
+
+    private boolean hasNoClosingTag(String s) {
+        String[] weirdElements = {"<meta ", "<link "};
+        boolean boo = false;
+        for (String weirdElement : weirdElements) {
+            if (s.startsWith(weirdElement)) {
+                boo = true;
+                break;
+            }
+        }
+        return boo;
     }
 
     public void printTree() {
