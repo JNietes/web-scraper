@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -89,6 +91,20 @@ public class WebPage {
         catch (IOException ex) {
             System.out.println("I/O Errors: no such file");
         }
+    }
+
+    protected File createCSV(ArrayList<String> arrayList, String fileName) {
+        File csv = null;
+        try {
+            csv = new File(fileName + ".csv");
+            PrintWriter output = new PrintWriter(fileName + ".csv");
+            for (String s : arrayList) {
+                output.print(s + ",");
+            }
+        } catch (Exception e) {
+            System.out.println("CSV Error");
+        }
+        return csv;
     }
 
     public HTMLElementTree getElementTree() {
