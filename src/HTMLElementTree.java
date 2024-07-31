@@ -55,6 +55,7 @@ public class HTMLElementTree {
         printTree(root, 0);
     }
 
+    private void printTree(HTMLElement e) { printTree(e, 0); }
     private void printTree(HTMLElement node, int indent) {
         int numOfIndents = indent;
         for (int i = 0; i < numOfIndents; i++) {
@@ -66,52 +67,48 @@ public class HTMLElementTree {
             printTree(e, numOfIndents);
         }
     }
-    public void getLeavesFromNode(String parentNodeValue) {
-        getLeavesFromNode(root, parentNodeValue);
+
+    public void printTreeFromNodes(String nodeValue) {
+        for (HTMLElement e: getElements(nodeValue)) {
+            printTree(e);
+        }
     }
-    private void getLeavesFromNode(HTMLElement parentNode, String parentNodeValue) {
-        for (HTMLElement e: parentNode.getChildren()) {
-            if (e.getValue().equals(parentNodeValue)) {
-                getLeavesFromNode(e);
-            }
-            else {
-                getLeavesFromNode(e, parentNodeValue);
+
+    public ArrayList<HTMLElement> getElements(String nodeValue) {
+        ArrayList<HTMLElement> temp = new ArrayList<>();
+        depthFirstSearch(root, nodeValue, temp);
+        return temp;
+    }
+
+    private void depthFirstSearch(HTMLElement node, String nodeValue, ArrayList<HTMLElement> temp) {
+        if (node.getValue().equals(nodeValue)) {
+            temp.add(node);
+        }
+        else {
+            for (HTMLElement e: node.getChildren()) {
+                if (e.getValue().equals(nodeValue)) {
+                    temp.add(e);
+                }
+                else {
+                    depthFirstSearch(e, nodeValue, temp);
+                }
             }
         }
     }
 
-    private void getLeavesFromNode(HTMLElement node) {
-        for (HTMLElement e: node.getChildren()) {
-            if (e.getChildren().isEmpty()) {
-                System.out.println(e);
-            }
-            else {
-                getLeavesFromNode(e);
-            }
+    public void printTextLeavesFromNode(String nodeValue) {
+        for (HTMLElement e: getElements(nodeValue)) {
+            printTextLeavesFromNode(e);
         }
     }
 
-    public void getTextLeavesFromNode(String parentNodeValue) {
-        getTextLeavesFromNode(root, parentNodeValue);
-    }
-    private void getTextLeavesFromNode(HTMLElement parentNode, String parentNodeValue) {
-        for (HTMLElement e: parentNode.getChildren()) {
-            if (e.getValue().equals(parentNodeValue)) {
-                getTextLeavesFromNode(e);
-            }
-            else {
-                getTextLeavesFromNode(e, parentNodeValue);
-            }
-        }
-    }
-
-    private void getTextLeavesFromNode(HTMLElement node) {
+    private void printTextLeavesFromNode(HTMLElement node) {
         for (HTMLElement e: node.getChildren()) {
             if (e.getChildren().isEmpty() && !e.getValue().startsWith("<")) {
                 System.out.println(e);
             }
             else {
-                getLeavesFromNode(e);
+                printTextLeavesFromNode(e);
             }
         }
     }
