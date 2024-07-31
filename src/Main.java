@@ -7,19 +7,19 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        WebPage wp;
+        Ebay ewp;
         File HTMLElements = new File ("HTMLElements.txt");
         if (!HTMLElements.exists()) {
-            wp = new WebPage("https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
-            createHTMLElementFile(wp);
+            ewp = new Ebay("https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
+            createHTMLElementFile(ewp);
         }
         else {
-            wp = new WebPage("HTMLElements.txt", "https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
+            ewp = new Ebay("HTMLElements.txt", "https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
         }
 
-        wp.getElementTree().printTree();
-        wp.getElementTree().getTextLeavesFromNode("<div class=s-item__title>");
-
+        ArrayList<String> temp = ewp.getGraphicsCardListings();
+        System.out.println(temp);
+        ewp.createCSV(temp, "GraphicsCards");
     }
 
     // Can aid in finding elements
