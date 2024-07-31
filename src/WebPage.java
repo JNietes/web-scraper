@@ -93,18 +93,20 @@ public class WebPage {
         }
     }
 
-    protected File createCSV(ArrayList<String> arrayList, String fileName) {
-        File csv = null;
-        try {
-            csv = new File(fileName + ".csv");
-            PrintWriter output = new PrintWriter(fileName + ".csv");
+    protected void createCSV(ArrayList<String> arrayList, String fileName) {
+        File csv = new File(fileName + ".csv");
+        try (PrintWriter output = new PrintWriter(csv)){
             for (String s : arrayList) {
-                output.print(s + ",");
+                if (s.equals("\n")) {
+                    output.print(s);
+                }
+                else {
+                    output.print("\"" + s + "\",");
+                }
             }
         } catch (Exception e) {
             System.out.println("CSV Error");
         }
-        return csv;
     }
 
     public HTMLElementTree getElementTree() {

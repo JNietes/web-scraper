@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.ArrayList;
 
 public class Ebay extends WebPage {
@@ -43,7 +42,4 @@ public class Ebay extends WebPage {
         return cardPriceSellerArrayList;
     }
 
-    public void createGraphicsCardCSV() {
-        createCSV(getGraphicsCardListings(), "EbayGraphicsCards.csv");
-    }
 }

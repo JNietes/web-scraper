@@ -17,9 +17,8 @@ public class Main {
             ewp = new Ebay("HTMLElements.txt", "https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
         }
 
-        ArrayList<String> temp = ewp.getGraphicsCardListings();
-        System.out.println(temp);
-        ewp.createCSV(temp, "GraphicsCards");
+        System.out.println(ewp.getGraphicsCardListings());
+        ewp.createCSV(ewp.getGraphicsCardListings(), "Graphics Cards");
     }
 
     // Can aid in finding elements
