@@ -3,6 +3,9 @@ import java.util.Stack;
 
 public class HTMLElementTree {
     private HTMLElement root = null;
+    public HTMLElementTree(HTMLElement root) {
+        this.root = root;
+    }
     public HTMLElementTree(ArrayList<String> arrayList) {
         addElements(arrayList);
     }
@@ -69,8 +72,10 @@ public class HTMLElementTree {
     }
 
     public void printTreeFromNodes(String nodeValue) {
-        for (HTMLElement e: getElements(nodeValue)) {
-            printTree(e);
+        ArrayList<HTMLElement> referenceVar = getElements(nodeValue);
+        for (int i=0; i<referenceVar.size(); i++) {
+            System.out.println("\nNode #: " + i + "\n");
+            printTree(referenceVar.get(i));
         }
     }
 
@@ -80,13 +85,46 @@ public class HTMLElementTree {
         return temp;
     }
 
-    private void depthFirstSearch(HTMLElement node, String nodeValue, ArrayList<HTMLElement> temp) {
-        if (node.getValue().equals(nodeValue)) {
+    public ArrayList<HTMLElement> getElementsWithClass(String className) {
+        ArrayList<HTMLElement> temp = new ArrayList<>();
+        classDepthFirstSearch(root, className, temp);
+        return temp;
+    }
+
+    public String getFirstTextChild(HTMLElement node) {
+        String temp = "";
+        for (HTMLElement e: node.getChildren()) {
+            if (!e.getValue().startsWith("<")) {
+                temp = e.getValue();
+                break;
+            }
+        }
+        return temp;
+    }
+
+    private void classDepthFirstSearch(HTMLElement node, String className, ArrayList<HTMLElement> temp) {
+        if (node.getHTMLClass().startsWith(className)) {
             temp.add(node);
         }
         else {
             for (HTMLElement e: node.getChildren()) {
-                if (e.getValue().equals(nodeValue)) {
+                if (e.getHTMLClass().startsWith(className)) {
+                    temp.add(e);
+                }
+                else {
+                    classDepthFirstSearch(e, className, temp);
+                }
+            }
+        }
+    }
+
+    private void depthFirstSearch(HTMLElement node, String nodeValue, ArrayList<HTMLElement> temp) {
+        if (node.getValue().startsWith(nodeValue)) {
+            temp.add(node);
+        }
+        else {
+            for (HTMLElement e: node.getChildren()) {
+                if (e.getValue().startsWith(nodeValue)) {
                     temp.add(e);
                 }
                 else {
