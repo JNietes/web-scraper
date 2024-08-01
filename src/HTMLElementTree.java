@@ -85,6 +85,10 @@ public class HTMLElementTree {
         return temp;
     }
 
+    public HTMLElement getElement(String nodeValue) {
+        return getElements(nodeValue).getFirst();
+    }
+
     public ArrayList<HTMLElement> getElementsWithClass(String className) {
         ArrayList<HTMLElement> temp = new ArrayList<>();
         classDepthFirstSearch(root, className, temp);
@@ -97,6 +101,18 @@ public class HTMLElementTree {
             if (!e.getValue().startsWith("<")) {
                 temp = e.getValue();
                 break;
+            }
+        }
+        return temp;
+    }
+
+    public ArrayList<String> getTextChildren(ArrayList<HTMLElement> nodes) {
+        ArrayList<String> temp = new ArrayList<>();
+        for (HTMLElement e: nodes) {
+            for (HTMLElement f: e.getChildren()) {
+                if (!f.getValue().startsWith("<")) {
+                    temp.add(f.toString());
+                }
             }
         }
         return temp;
@@ -132,6 +148,26 @@ public class HTMLElementTree {
                 }
             }
         }
+    }
+
+    public ArrayList<String> getTextLeavesFromNode(String nodeValue) {
+        ArrayList<String> leaves = new ArrayList<>();
+        getTextLeavesFromNode(getElement(nodeValue), leaves);
+        return leaves;
+    }
+    public void getTextLeavesFromNode(HTMLElement node, ArrayList<String> leaves) {
+        for (HTMLElement e: node.getChildren()) {
+            if (!e.getValue().startsWith("<")) {
+                leaves.add(e.getValue());
+            }
+            else {
+                getTextLeavesFromNode(e, leaves);
+            }
+        }
+    }
+
+    public String getFirstTextLeafFromNode(String nodeValue) {
+        return getTextLeavesFromNode(nodeValue).getFirst();
     }
 
     public void printTextLeavesFromNode(String nodeValue) {

@@ -14,14 +14,26 @@ public class Ebay extends WebPage {
         ArrayList<String> cardPriceSellerArrayList = new ArrayList<>();
         for (int i=2; i< listings.size(); i++) {
             HTMLElementTree temp = new HTMLElementTree(listings.get(i));
+
+            // Item Name
             cardPriceSellerArrayList.add(temp.getFirstTextChild(temp.getElements("<span role=heading aria-level=3>").getFirst()));
-            cardPriceSellerArrayList.add(temp.getFirstTextChild(temp.getElements("<span class=s-item__price>").getFirst()));
+
+            // Price
+            if (!temp.getTextLeavesFromNode("<span class=s-item__price>").isEmpty()) {
+                cardPriceSellerArrayList.add(temp.getFirstTextLeafFromNode("<span class=s-item__price>"));
+            } else {
+                cardPriceSellerArrayList.add("Price Not Found");
+            }
+
+            // Seller
             if (!temp.getElements("<span class=s-item__seller-info-text>").isEmpty()) {
                 cardPriceSellerArrayList.add(temp.getFirstTextChild(temp.getElements("<span class=s-item__seller-info-text>").getFirst()));
             }
             else {
-                cardPriceSellerArrayList.add("No Seller Listed");
+                cardPriceSellerArrayList.add("Seller Not Found");
             }
+
+            // Link
             if (!temp.getElementsWithClass("s-item__link").isEmpty()) {
                 String anchor = temp.getElementsWithClass("s-item__link").getLast().getValue();
                 StringBuilder buildTillhref = new StringBuilder();

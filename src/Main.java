@@ -10,11 +10,11 @@ public class Main {
         Ebay ewp;
         File HTMLElements = new File ("HTMLElements.txt");
         if (!HTMLElements.exists()) {
-            ewp = new Ebay("https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
+            ewp = new Ebay("https://www.ebay.com/sch/i.html?_from=R40&_nkw=5700xt&_sacat=0&LH_ItemCondition=3000&_sop=15");
             createHTMLElementFile(ewp);
         }
         else {
-            ewp = new Ebay("HTMLElements.txt", "https://www.ebay.com/sch/i.html?_from=R40&_nkw=graphics+card&_sacat=0");
+            ewp = new Ebay("HTMLElements.txt", "https://www.ebay.com/sch/i.html?_from=R40&_nkw=5700xt&_sacat=0&LH_ItemCondition=3000&_sop=15");
         }
 
         System.out.println(ewp.getGraphicsCardListings());
