@@ -1,24 +1,35 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
 
-        Ebay ewp;
-        File HTMLElements = new File ("HTMLElements.txt");
-        if (!HTMLElements.exists()) {
-            ewp = new Ebay("https://www.ebay.com/sch/i.html?_from=R40&_nkw=5700xt&_sacat=0&LH_ItemCondition=3000&_sop=15");
-            createHTMLElementFile(ewp);
-        }
-        else {
-            ewp = new Ebay("HTMLElements.txt", "https://www.ebay.com/sch/i.html?_from=R40&_nkw=5700xt&_sacat=0&LH_ItemCondition=3000&_sop=15");
-        }
+        System.out.print("Enter a URL and the desired name of the CSV: ");
+        String[] inputs = {input.next(), input.next()};
 
-        System.out.println(ewp.getGraphicsCardListings());
-        ewp.createCSV(ewp.getGraphicsCardListings(), "Graphics Cards");
+        boolean valid = false;
+        while (!valid) {
+            try {
+                Ebay ebay = new Ebay(inputs[0]);
+                ebay.createCSV(ebay.getItemListings(), inputs[1]);
+                valid = true;
+                System.out.println("File Created");
+            }
+            catch (MalformedURLException ex) {
+                System.out.print("Enter another URL: ");
+                inputs[0] = input.next();
+            }
+            catch (FileNotFoundException ex) {
+                System.out.println("Invalid File Name");
+                System.out.print("Enter another file name (without .csv): ");
+                inputs[1] = input.next();
+            }
+        }
     }
 
     // Can aid in finding elements

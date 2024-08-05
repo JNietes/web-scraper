@@ -1,8 +1,11 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,7 +14,7 @@ public class WebPage {
     private ArrayList<String> nodes = new ArrayList<>();
     private final String webPageURL;
     private final HTMLElementTree elementTree;
-    public WebPage(String webPageURL) {
+    public WebPage(String webPageURL) throws MalformedURLException {
         this.webPageURL = webPageURL;
         createHTMLCharArrayList();
         createElementArrayList();
@@ -70,10 +73,11 @@ public class WebPage {
                 text.append(HTMLAL.get(i));
             }
         }
+        System.out.println("Elements Created " + LocalTime.now());
     }
 
 
-    private void createHTMLCharArrayList() {
+    private void createHTMLCharArrayList() throws MalformedURLException {
         try {
             URL url = new URL(webPageURL);
             Scanner input = new Scanner(url.openStream());
@@ -84,16 +88,18 @@ public class WebPage {
                     HTMLAL.add(tempStr);
                 }
             }
+            System.out.println("HTML Downloaded " + LocalTime.now());
         }
         catch (MalformedURLException ex) {
             System.out.println("Invalid URL");
+            throw ex;
         }
         catch (IOException ex) {
             System.out.println("I/O Errors: no such file");
         }
     }
 
-    protected void createCSV(ArrayList<String> arrayList, String fileName) {
+    protected void createCSV(ArrayList<String> arrayList, String fileName) throws FileNotFoundException {
         File csv = new File(fileName + ".csv");
         try (PrintWriter output = new PrintWriter(csv)){
             for (String s : arrayList) {
